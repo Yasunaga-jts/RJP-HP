@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>株式会社RJP | 顧客方求人コンサルティング</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&family=Noto+Sans+JP:wght@300;400;500;700;900&family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #101B9D;
+            --accent-cyan: #00CFFF;
+            --main-gradient: linear-gradient(90deg, #00CFFF 0%, #101B9D 100%);
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            color: #1a1a1a;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- スクロールアニメーション用スタイル --- */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+
+        .scroll-reveal.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 遅延のバリエーション */
+        .delay-200 { transition-delay: 200ms; }
+        .delay-400 { transition-delay: 400ms; }
+        .delay-600 { transition-delay: 600ms; }
+
+        /* --- ヘッダー --- */
+        .header-logo-img {
+            height: 30px; /* メニューの大きさに合わせて小さく調整 */
+            width: auto;
+            object-fit: contain;
+        }
+
+        /* --- メインビジュアル --- */
+        .hero-section {
+            position: relative;
+            height: 100vh;
+            min-height: 700px;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            background-color: #fff;
+        }
+
+        .bg-hero-symbol {
+            position: absolute;
+            right: -5%;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 90%;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.1;
+        }
+
+        .hero-image-container {
+            position: absolute;
+            right: 8%;
+            top: 15%;
+            width: 35%;
+            height: 70%;
+            z-index: 2;
+        }
+        
+        .hero-main-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+        }
+
+        .hero-title-main {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            line-height: 1.2;
+            letter-spacing: 0.02em;
+            color: #1a1a1a;
+            margin-bottom: 0.5rem;
+        }
+
+        /* メインビジュアルのサブタイトルもグラデーション化 */
+        .hero-title-sub {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            line-height: 1.2;
+            display: inline-block;
+            background: var(--main-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-description {
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: #666;
+            letter-spacing: 0.05em;
+            margin-bottom: 3rem;
+        }
+
+        .btn-black {
+            background-color: #000;
+            color: #fff;
+            padding: 1rem 2.5rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-white {
+            background-color: #fff;
+            color: #333;
+            padding: 1rem 2.5rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+
+        /* --- セクション共通 --- */
+        .section-title-en { font-family: 'Noto Serif JP', serif; font-size: 3rem; line-height: 1; }
+        .section-title-ja { font-size: 0.875rem; color: #666; letter-spacing: 0.1em; margin-left: 1rem; }
+        
+        /* テキストグラデーション設定 */
+        .text-gradient-main {
+            display: inline-block;
+            background: var(--main-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent; /* Fallback */
+            font-weight: 900;
+            font-size: 1.8rem; 
+            line-height: 1.3;
+            margin-bottom: 0.4rem;
+        }
+
+        .btn-blue-gradient {
+            background: var(--main-gradient);
+            color: #fff;
+            padding: 0.75rem 2.5rem;
+            border-radius: 9999px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            box-shadow: 0 10px 25px rgba(16, 27, 157, 0.3);
+            transition: transform 0.3s ease;
+        }
+        .btn-blue-gradient:hover { transform: translateY(-2px); }
+        .btn-icon-circle { background: #fff; color: #101B9D; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; }
+
+        .character-img { max-width: 140px; height: auto; }
+
+        /* --- 運用実績シームレス自動スライダー --- */
+        .slider-wrapper {
+            position: relative;
+            width: 100vw;
+            left: 50%;
+            right: 50%;
+            margin-left: -50vw;
+            margin-right: -50vw;
+            overflow: hidden;
+        }
+
+        .achievement-slider-container {
+            display: flex;
+            width: fit-content;
+        }
+
+        .achievement-track {
+            display: flex;
+            gap: 24px;
+            animation: scroll-left 50s linear infinite;
+            padding-right: 24px;
+        }
+
+        @keyframes scroll-left {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+
+        .achievement-card { 
+            background: #fff; 
+            border: 1px solid #e5e7eb;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+            width: 350px;
+            box-sizing: border-box;
+        }
+
+        .achievement-image-box {
+            position: relative;
+            width: 100%;
+            height: 220px;
+            overflow: hidden;
+        }
+
+        .achievement-image-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .industry-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .industry-label { 
+            color: #fff; 
+            font-size: 1.5rem; 
+            font-weight: 700; 
+            letter-spacing: 0.1em;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            pointer-events: none; 
+        }
+
+        .achievement-number { 
+            font-family: 'Noto Sans JP', sans-serif;
+            font-size: 4.5rem; 
+            font-weight: 700; 
+            color: #E60012; 
+            line-height: 1; 
+        }
+
+        .achievement-unit {
+            font-size: 0.75rem;
+            color: #000;
+            font-weight: 700;
+            margin-left: 0.25rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .achievement-meta {
+            font-size: 0.7rem;
+            color: #666;
+            line-height: 2;
+            text-align: center;
+        }
+
+        /* --- お問い合わせセクション --- */
+        .cta-section {
+            background-image: url('cta.png'); 
+            background-size: cover;
+            background-position: center;
+            padding: 100px 20px;
+            text-align: center;
+            background-color: #f0f0f0; 
+        }
+
+        .cta-text {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 1rem;
+            letter-spacing: 0.05em;
+        }
+
+        .btn-outline-contact {
+            display: inline-block;
+            border: 1px solid #1a1a1a;
+            padding: 15px 80px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: #1a1a1a;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(2px);
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .btn-outline-contact:hover {
+            background: #1a1a1a;
+            color: #fff;
+        }
+
+        /* --- フッター --- */
+        .footer-navy {
+            background-color: #1D2E7A; 
+            color: #fff;
+            padding: 80px 40px 40px;
+            position: relative;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            text-align: left;
+        }
+
+        .footer-company-name {
+            font-size: 2.25rem;
+            font-weight: 700;
+            font-family: 'Noto Serif JP', serif;
+            margin-bottom: 15px;
+        }
+
+        .footer-address {
+            font-size: 0.875rem;
+            line-height: 1.8;
+            opacity: 0.9;
+            margin-bottom: 40px;
+        }
+
+        .footer-nav-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-bottom: 60px;
+            width: 100%;
+            justify-content: flex-end;
+        }
+
+        .footer-nav-item {
+            text-align: left;
+        }
+
+        .footer-nav-title {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .footer-nav-sub {
+            font-size: 0.7rem;
+            opacity: 0.7;
+            display: block;
+        }
+
+        .footer-bottom {
+            width: 100%;
+            border-top: none;
+            padding-top: 40px;
+            text-align: center;
+        }
+
+        .footer-policy-link {
+            font-size: 0.75rem;
+            opacity: 0.6;
+            margin-bottom: 20px;
+            display: inline-block;
+            transition: opacity 0.3s;
+        }
+
+        .footer-policy-link:hover { opacity: 1; }
+
+        .footer-copy {
+            font-size: 0.7rem;
+            opacity: 0.6;
+            letter-spacing: 0.05em;
+        }
+
+        @media (max-width: 1024px) {
+            .hero-image-container { width: 100%; opacity: 0.3; right: 0; top: 0; height: 100%; }
+            .text-gradient-main { font-size: 1.4rem; } 
+            .achievement-card { width: 280px; }
+            .footer-nav-grid { justify-content: flex-start; gap: 20px; }
+            .footer-company-name { font-size: 1.75rem; }
+        }
+    </style>
+</head>
+<body class="bg-white overflow-x-hidden">
+
+<!-- ヘッダー -->
+<header class="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-sm py-4 border-b border-gray-100">
+    <div class="container mx-auto px-6 lg:px-16 flex items-center justify-between">
+        <div class="flex items-center">
+            <img src="logo1.png" alt="株式会社RJP" class="header-logo-img">
+        </div>
+        <nav class="hidden lg:flex items-center gap-8">
+            <a href="#" class="text-sm font-bold hover:text-blue-700 transition-colors">会社概要</a>
+            <a href="#" class="text-sm font-bold hover:text-blue-700 transition-colors">サービスについて</a>
+            <a href="#" class="text-sm font-bold hover:text-blue-700 transition-colors">お知らせ・コラム</a>
+            <a href="#" class="text-sm font-bold hover:text-blue-700 transition-colors">公式スポンサー</a>
+            <a href="#" class="bg-[#F27B35] text-white px-8 py-3 rounded-full font-bold text-sm tracking-widest ml-4 shadow-md hover:brightness-105 transition-all">お問い合わせ</a>
+        </nav>
+    </div>
+</header>
+
+<!-- メインビジュアル -->
+<section class="hero-section">
+    <svg class="bg-hero-symbol" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M100 50H250C350 50 400 120 400 200C400 280 350 350 250 350H200L350 450H250L100 350V50Z" fill="#F4F7FA"/>
+        <path d="M200 150V250H250C280 250 300 230 300 200C300 170 280 150 250 150H200Z" fill="white"/>
+    </svg>
+
+    <div class="hero-image-container scroll-reveal delay-600">
+        <img src="logo.png" alt="Main Visual" class="hero-main-img">
+    </div>
+
+    <div class="container mx-auto px-6 lg:px-16 hero-content">
+        <div class="max-w-4xl">
+            <h1 class="hero-title-main scroll-reveal">顧客方求人コンサルティング</h1>
+            <h2 class="hero-title-sub scroll-reveal delay-200">採用を仕組みで成功へ</h2>
+            <p class="hero-description scroll-reveal delay-400">全ての不足を解消させる採用支援サービスを提供</p>
+            
+            <div class="flex flex-wrap gap-5 mt-10 scroll-reveal delay-600">
+                <a href="#" class="btn-black group">
+                    サービスについて
+                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                        <path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                    </svg>
+                </a>
+                <a href="#" class="btn-white">
+                    お問い合わせ
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About セクション -->
+<section class="py-24 bg-white">
+    <div class="container mx-auto px-6 lg:px-16">
+        <div class="flex items-baseline border-b border-gray-200 pb-4 mb-16 scroll-reveal">
+            <h2 class="section-title-en text-black">About</h2>
+            <span class="section-title-ja">私たちについて</span>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-stretch">
+            <div class="lg:col-start-2 lg:col-span-5 scroll-reveal">
+                <div class="w-full h-[200px] lg:h-[260px]">
+                    <img src="about.png" alt="About Team" class="w-full h-full object-cover shadow-sm rounded-lg">
+                </div>
+            </div>
+
+            <div class="lg:col-span-5 flex flex-col justify-center scroll-reveal delay-200">
+                <div class="mb-6 text-2xl lg:text-[1.8rem] font-black text-gray-900 leading-snug tracking-wide">
+                    企業が発展しながらも<br>
+                    存続できるようサポートする
+                </div>
+                <p class="text-[#666] leading-relaxed text-sm">
+                    企業が持続的に成長し、安定して存続できるよう支援することに<br class="hidden md:block">
+                    加え、現状維持に満足することなく、さまざまな成功をサポート<br class="hidden md:block">
+                    し続けることが, 社会に対する当社の役割だと考えております。
+                </p>
+            </div>
+        </div>
+
+        <div class="flex justify-center mt-12 scroll-reveal delay-400">
+            <a href="#" class="btn-blue-gradient">
+                会社概要を見る
+                <span class="btn-icon-circle">➜</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Work セクション -->
+<section class="py-24 bg-gray-50/50">
+    <div class="container mx-auto px-6 lg:px-16">
+        <div class="flex items-baseline border-b border-gray-200 pb-4 mb-16 scroll-reveal">
+            <h2 class="section-title-en text-black">Work</h2>
+            <span class="section-title-ja">事業内容</span>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div class="lg:col-start-2 lg:col-span-5 flex flex-col justify-center order-2 lg:order-1 scroll-reveal delay-200">
+                <div class="mb-6">
+                    <div class="text-gradient-main">企業の採用課題を</div><br>
+                    <div class="text-gradient-main">解決へ導くトータルサポート</div>
+                </div>
+                
+                <div class="flex flex-col sm:flex-row items-center sm:items-end gap-6">
+                    <p class="text-[#666] leading-relaxed text-sm flex-1">
+                        企業が抱える採用課題に寄り添い、採用戦略の整理から
+                        集客、応募獲得まで幅広く支援いたします。状況に応じ
+                        た最適な施策をご提案し、採用活動をスムーズに進めら
+                        れる体制づくりをサポートし、貴社の発展を全力で支え
+                        ます。お気軽にご相談ください。
+                    </p>
+                    <div class="flex-shrink-0">
+                        <img src="torikirukun.png" alt="トリキルくん" class="character-img drop-shadow-lg scale-90 origin-bottom">
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-5 order-1 lg:order-2 scroll-reveal">
+                <img src="work.png" alt="Work Service" class="w-full h-auto object-cover shadow-sm rounded-lg">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Achievements セクション -->
+<section class="py-24 bg-white overflow-hidden">
+    <div class="container mx-auto px-6 lg:px-16 max-w-7xl mb-12 scroll-reveal">
+        <div class="flex items-baseline border-b border-gray-300 pb-4 mb-6">
+            <h2 class="text-5xl lg:text-[4rem] text-black font-serif tracking-wide leading-none" style="font-family: 'Noto Serif JP', serif;">Achievements</h2>
+            <span class="text-[15px] text-[#666] tracking-widest ml-6 font-bold">運用実績</span>
+        </div>
+        <p class="text-[#333] font-medium">500社以上の運用実績があるため、様々な課題を解決に導くことが可能です。</p>
+    </div>
+
+    <div class="slider-wrapper scroll-reveal delay-200">
+        <div class="achievement-slider-container" id="achievementContainer">
+            <!-- JavaScriptにより内容が生成されます -->
+        </div>
+    </div>
+</section>
+
+<!-- News セクション -->
+<section class="py-24 bg-gray-50/50">
+    <div class="container mx-auto px-6 lg:px-16">
+        <div class="flex items-baseline border-b border-gray-200 pb-4 mb-16 scroll-reveal">
+            <h2 class="section-title-en text-black">News</h2>
+            <span class="section-title-ja">お知らせ</span>
+        </div>
+
+        <div class="flex flex-col gap-10 max-w-4xl mx-auto">
+            <div class="flex flex-col sm:flex-row gap-6 items-start group cursor-pointer scroll-reveal">
+                <div class="w-full sm:w-64 h-40 flex-shrink-0 overflow-hidden rounded">
+                    <img src="news_01.png" alt="お知らせ画像1" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.src='https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=600'">
+                </div>
+                <div class="flex-1 py-1">
+                    <div class="flex items-center gap-4 mb-3">
+                        <span class="bg-[#194CAC] text-white text-xs font-bold py-1.5 w-24 text-center inline-block rounded-full tracking-wider">お知らせ</span>
+                        <span class="text-[#666] text-sm">2025.4</span>
+                    </div>
+                    <h3 class="text-base font-bold text-gray-900 leading-relaxed group-hover:text-[#101B9D] transition-colors">
+                        株式会社RJPリクルートメントに組織変更。
+                    </h3>
+                </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-6 items-start group cursor-pointer scroll-reveal delay-200">
+                <div class="w-full sm:w-64 h-40 flex-shrink-0 overflow-hidden rounded">
+                    <img src="news_02.png" alt="お知らせ画像2" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.src='https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=600'">
+                </div>
+                <div class="flex-1 py-1">
+                    <div class="flex items-center gap-4 mb-3">
+                        <span class="bg-[#EF5E29] text-white text-xs font-bold py-1.5 w-24 text-center inline-block rounded-full tracking-wider">コラム</span>
+                        <span class="text-[#666] text-sm">2025.4</span>
+                    </div>
+                    <h3 class="text-base font-bold text-gray-900 leading-relaxed group-hover:text-[#101B9D] transition-colors">
+                        株式会社RJPリクルートメントに組織変更。
+                    </h3>
+                </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-6 items-start group cursor-pointer scroll-reveal delay-400">
+                <div class="w-full sm:w-64 h-40 flex-shrink-0 overflow-hidden rounded">
+                    <img src="news_03.png" alt="お知らせ画像3" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.src='https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&q=80&w=600'">
+                </div>
+                <div class="flex-1 py-1">
+                    <div class="flex items-center gap-4 mb-3">
+                        <span class="bg-[#194CAC] text-white text-xs font-bold py-1.5 w-24 text-center inline-block rounded-full tracking-wider">お知らせ</span>
+                        <span class="text-[#666] text-sm">2025.4</span>
+                    </div>
+                    <h3 class="text-base font-bold text-gray-900 leading-relaxed group-hover:text-[#101B9D] transition-colors">
+                        株式会社RJPリクルートメントに組織変更。
+                    </h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex justify-center mt-16 scroll-reveal delay-600">
+            <a href="#" class="btn-blue-gradient">
+                さらに見る
+                <span class="btn-icon-circle">➜</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- お問い合わせセクション -->
+<section class="cta-section scroll-reveal">
+    <div class="container mx-auto px-6">
+        <p class="cta-text">株式会社RJPリクルートメントに興味をお持ちいただき、ありがとうございます。</p>
+        <p class="cta-text">どんな小さなことでもお気軽にお問い合わせください。</p>
+        
+        <div class="mt-8">
+            <a href="#" class="btn-blue-gradient">
+                お問い合わせ
+                <span class="btn-icon-circle">➜</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- フッター -->
+<footer class="footer-navy">
+    <div class="footer-content scroll-reveal">
+        <h2 class="footer-company-name">株式会社RJPリクルートメント</h2>
+        <div class="footer-address">
+            〒811-2414<br>
+            福岡県糟屋郡篠栗町和田1-5-52
+        </div>
+
+        <div class="footer-nav-grid">
+            <a href="#" class="footer-nav-item">
+                <span class="footer-nav-title">トップ</span>
+            </a>
+            <a href="#" class="footer-nav-item">
+                <span class="footer-nav-title">行動指針</span>
+                <span class="footer-nav-sub">・会社概要</span>
+            </a>
+            <a href="#" class="footer-nav-item">
+                <span class="footer-nav-title">事業内容</span>
+                <span class="footer-nav-sub">・採用支援サービス</span>
+            </a>
+            <a href="#" class="footer-nav-item">
+                <span class="footer-nav-title">お知らせ</span>
+            </a>
+            <a href="#" class="footer-nav-item">
+                <span class="footer-nav-title">公式スポンサー</span>
+            </a>
+        </div>
+
+        <div class="footer-bottom">
+            <a href="#" class="footer-policy-link">プライバシーポリシー</a><br>
+            <p class="footer-copy">COPYRIGHT©2025 株式会社RJPリクルートメント ALL RIGHTS RESERVED</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+const achievementsData = [
+    { industry: "運輸業", imageUrl: "unu.png", count: "35", unit: "名 応募/月", meta: "正社員3名採用<br>導入前：応募8名" },
+    { industry: "接客業", imageUrl: "sekkyaku.png", count: "23", unit: "名 応募/月", meta: "導入前：応募7名<br>アルバイト4名採用" },
+    { industry: "介護業", imageUrl: "kaigo.png", count: "18", unit: "名 応募/月", meta: "導入前：応募4名<br>正社員2名採用" },
+    { industry: "清掃業", imageUrl: "seisou.png", count: "42", unit: "名 応募/月", meta: "アルバイト3名採用<br>導入前：応募6名" },
+    { industry: "飲食店", imageUrl: "inshoku.png", count: "60", unit: "名 応募/月", meta: "アルバイト7名採用<br>導入前：応募10名" },
+    { industry: "アパレル業", imageUrl: "apareru.png", count: "16", unit: "名 応募/月", meta: "アルバイト2名採用<br>導入前：応募6名" },
+    { industry: "タクシー業", imageUrl: "TAXI.png", count: "30", unit: "名 応募/月", meta: "アルバイト5名採用<br>導入前：応募5名" },
+    { industry: "電気工事業", imageUrl: "denki.png", count: "7", unit: "名 応募/月", meta: "アルバイト2名採用<br>導入前：応募1名" },
+    { industry: "塗装業", imageUrl: "tosou.png", count: "9", unit: "名 応募/月", meta: "アルバイト2名採用<br>導入前：応募1名" }
+];
+
+function initAchievementSlider() {
+    const container = document.getElementById('achievementContainer');
+    if (!container) return;
+
+    const cardsHTML = achievementsData.map(item => `
+        <div class="achievement-card">
+            <div class="achievement-image-box">
+                <img src="${item.imageUrl}" alt="${item.industry}" onerror="this.src='https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&q=80&w=800'">
+                <div class="industry-overlay"><div class="industry-label">${item.industry}</div></div>
+            </div>
+            <div class="pt-8 pb-10 text-center bg-white flex-grow">
+                <div class="flex items-end justify-center mb-5">
+                    <span class="achievement-number">${item.count}</span>
+                    <span class="achievement-unit">${item.unit}</span>
+                </div>
+                <div class="achievement-meta">${item.meta}</div>
+            </div>
+        </div>
+    `).join('');
+
+    container.innerHTML = `
+        <div class="achievement-track">${cardsHTML}</div>
+        <div class="achievement-track">${cardsHTML}</div>
+    `;
+}
+
+// スクロール検知アニメーション
+function initScrollReveal() {
+    const options = {
+        root: null,
+        rootMargin: "0px",
+        threshold: 0.1 // 10%が見えたら発動
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+            }
+        });
+    }, options);
+
+    const revealElements = document.querySelectorAll('.scroll-reveal');
+    revealElements.forEach(el => observer.observe(el));
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    initAchievementSlider();
+    initScrollReveal();
+});
+</script>
+
+</body>
+</html>
