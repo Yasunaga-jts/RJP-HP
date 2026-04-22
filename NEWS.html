@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News お知らせ一覧 - 株式会社RJPリクルートメント</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans JP"', 'sans-serif'],
+                        serif: ['"Noto Serif JP"', 'serif'],
+                    },
+                    colors: {
+                        primary: '#2b4c9b',
+                        secondary: '#ee6123',
+                        success: '#169a25',
+                        footer: '#2D336B',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* 背景グラデーションと波のアニメーション・装飾用の追加スタイル */
+        .bg-hero-gradient {
+            /* ヒーロー部分（上部の濃い青）を画像にする場合は以下のコメントアウトを外してURLを変更してください */
+            /* background-image: url('YOUR_HERO_IMAGE_URL.jpg'); */
+            /* background-size: cover; */
+            /* background-position: center; */
+            
+            /* 現在はグラデーションが適用されています */
+            background: linear-gradient(160deg, #1898ed 0%, #4dbfff 40%, #99dfff 100%);
+        }
+        
+        .hero-decoration {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .hero-decoration::before {
+            content: '';
+            position: absolute;
+            top: -20%;
+            left: -10%;
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%);
+            border-radius: 50%;
+        }
+        .hero-decoration::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            right: -10%;
+            width: 80vw;
+            height: 80vw;
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 70%);
+            border-radius: 50%;
+        }
+        
+        /* ページ全体のベース背景色（ここを画像に変更可能にしました） */
+        body {
+            /* 背景画像を設定する場合は下記のURLを変更してください（現在はサンプルの淡い水色画像です） */
+            background-image: url('back.png');
+            background-size: cover;
+            background-position: center top;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            
+            /* 画像が読み込めない場合、または画像を使わない場合のフォールバック用の水色 */
+            background-color: #a4d8fa; 
+        }
+
+        /* --- フッター用追加スタイル --- */
+        .footer-navy {
+            background-color: #1D2E7A; 
+            color: #fff;
+            padding: 80px 40px 40px;
+            position: relative;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            text-align: left;
+        }
+
+        .footer-company-name {
+            font-size: 2.25rem;
+            font-weight: 700;
+            font-family: 'Noto Serif JP', serif;
+            margin-bottom: 15px;
+        }
+
+        .footer-address {
+            font-size: 0.875rem;
+            line-height: 1.8;
+            opacity: 0.9;
+            margin-bottom: 40px;
+        }
+
+        .footer-nav-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-bottom: 60px;
+            width: 100%;
+            justify-content: flex-end;
+        }
+
+        .footer-nav-item {
+            text-align: left;
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .footer-nav-title {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .footer-nav-sub {
+            font-size: 0.7rem;
+            opacity: 0.7;
+            display: block;
+        }
+
+        .footer-bottom {
+            width: 100%;
+            border-top: none;
+            padding-top: 40px;
+            text-align: center;
+        }
+
+        .footer-policy-link {
+            font-size: 0.75rem;
+            opacity: 0.6;
+            margin-bottom: 20px;
+            display: inline-block;
+            transition: opacity 0.3s;
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .footer-policy-link:hover { opacity: 1; }
+
+        .footer-copy {
+            font-size: 0.7rem;
+            opacity: 0.6;
+            letter-spacing: 0.05em;
+            margin: 0;
+        }
+
+        @media (max-width: 1024px) {
+            .footer-nav-grid { justify-content: flex-start; gap: 20px; }
+            .footer-company-name { font-size: 1.75rem; }
+        }
+    </style>
+</head>
+<body class="text-gray-800 antialiased min-h-screen flex flex-col">
+
+    <!-- ヒーローセクション（青グラデーション背景） -->
+    <div class="bg-hero-gradient w-full relative pt-20 pb-48 px-4 md:px-8">
+        <div class="hero-decoration"></div>
+        
+        <div class="max-w-6xl mx-auto relative z-10">
+            <!-- タイトル部分 -->
+            <div class="relative inline-block mb-4 border-b-[1.5px] border-white/90 pb-2">
+                <div class="flex items-baseline space-x-6">
+                    <h1 class="text-white text-6xl md:text-[5rem] font-serif font-bold tracking-wider drop-shadow-sm">News</h1>
+                    <span class="text-white text-xl md:text-2xl tracking-widest drop-shadow-sm">お知らせ一覧</span>
+                </div>
+                <!-- 右端の斜め線 -->
+                <div class="absolute bottom-[-1.5px] right-[-24px] w-[30px] h-[1.5px] bg-white/90 transform -rotate-[30deg] origin-left"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- メインコンテンツ領域（白いカード） -->
+    <main class="max-w-6xl mx-auto w-full px-4 md:px-8 -mt-32 relative z-20 flex-grow mb-24">
+        <div class="bg-white rounded-3xl shadow-[0_15px_50px_rgba(0,0,0,0.1)] p-6 md:p-12 lg:p-16">
+            
+            <!-- タブフィルター -->
+            <div class="flex flex-wrap gap-4 mb-12">
+                <button class="filter-btn bg-success text-white px-10 py-2.5 rounded-full font-bold text-sm tracking-widest shadow hover:opacity-90 transition-opacity opacity-100" data-filter="all">全て</button>
+                <button class="filter-btn bg-primary text-white px-10 py-2.5 rounded-full font-bold text-sm tracking-widest shadow hover:opacity-90 transition-opacity opacity-50" data-filter="news">お知らせ</button>
+                <button class="filter-btn bg-secondary text-white px-10 py-2.5 rounded-full font-bold text-sm tracking-widest shadow hover:opacity-90 transition-opacity opacity-50" data-filter="column">コラム</button>
+            </div>
+
+            <!-- 記事グリッド -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
+                
+                <!-- 記事カード 1 -->
+                <a href="#" class="block group cursor-pointer article-card" data-category="news">
+                    <div class="overflow-hidden mb-4 rounded-sm">
+                        <!-- AI/テクノロジーのプレースホルダー画像 -->
+                        <img src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&q=80&w=800" alt="記事サムネイル" class="w-full aspect-[16/10] object-cover transition-transform duration-500 group-hover:scale-105">
+                    </div>
+                    <div class="flex items-center space-x-4 mb-3">
+                        <time class="text-gray-900 font-bold text-lg tracking-wider">2025.4.23</time>
+                        <span class="bg-primary text-white text-[11px] px-4 py-1 rounded-full font-bold tracking-widest">お知らせ</span>
+                    </div>
+                    <h2 class="text-gray-900 font-medium text-[15px] leading-relaxed group-hover:text-primary transition-colors">
+                        株式会社RJPリクルートメントに組織変更。
+                    </h2>
+                </a>
+
+                <!-- 記事カード 2 -->
+                <a href="#" class="block group cursor-pointer article-card" data-category="column">
+                    <div class="overflow-hidden mb-4 rounded-sm">
+                        <img src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&q=80&w=800" alt="記事サムネイル" class="w-full aspect-[16/10] object-cover transition-transform duration-500 group-hover:scale-105">
+                    </div>
+                    <div class="flex items-center space-x-4 mb-3">
+                        <time class="text-gray-900 font-bold text-lg tracking-wider">2025.4.23</time>
+                        <span class="bg-secondary text-white text-[11px] px-4 py-1 rounded-full font-bold tracking-widest">コラム</span>
+                    </div>
+                    <h2 class="text-gray-900 font-medium text-[15px] leading-relaxed group-hover:text-primary transition-colors">
+                        株式会社RJPリクルートメントに組織変更。
+                    </h2>
+                </a>
+
+                <!-- 記事カード 3 -->
+                <a href="#" class="block group cursor-pointer article-card" data-category="news">
+                    <div class="overflow-hidden mb-4 rounded-sm">
+                        <img src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&q=80&w=800" alt="記事サムネイル" class="w-full aspect-[16/10] object-cover transition-transform duration-500 group-hover:scale-105">
+                    </div>
+                    <div class="flex items-center space-x-4 mb-3">
+                        <time class="text-gray-900 font-bold text-lg tracking-wider">2025.4.23</time>
+                        <span class="bg-primary text-white text-[11px] px-4 py-1 rounded-full font-bold tracking-widest">お知らせ</span>
+                    </div>
+                    <h2 class="text-gray-900 font-medium text-[15px] leading-relaxed group-hover:text-primary transition-colors">
+                        株式会社RJPリクルートメントに組織変更。
+                    </h2>
+                </a>
+
+                <!-- 記事カード 4 -->
+                <a href="#" class="block group cursor-pointer article-card" data-category="news">
+                    <div class="overflow-hidden mb-4 rounded-sm">
+                        <img src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&q=80&w=800" alt="記事サムネイル" class="w-full aspect-[16/10] object-cover transition-transform duration-500 group-hover:scale-105">
+                    </div>
+                    <div class="flex items-center space-x-4 mb-3">
+                        <time class="text-gray-900 font-bold text-lg tracking-wider">2025.4.23</time>
+                        <span class="bg-primary text-white text-[11px] px-4 py-1 rounded-full font-bold tracking-widest">お知らせ</span>
+                    </div>
+                    <h2 class="text-gray-900 font-medium text-[15px] leading-relaxed group-hover:text-primary transition-colors">
+                        株式会社RJPリクルートメントに組織変更。
+                    </h2>
+                </a>
+
+                <!-- 記事カード 5 -->
+                <a href="#" class="block group cursor-pointer article-card" data-category="column">
+                    <div class="overflow-hidden mb-4 rounded-sm">
+                        <img src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&q=80&w=800" alt="記事サムネイル" class="w-full aspect-[16/10] object-cover transition-transform duration-500 group-hover:scale-105">
+                    </div>
+                    <div class="flex items-center space-x-4 mb-3">
+                        <time class="text-gray-900 font-bold text-lg tracking-wider">2025.4.23</time>
+                        <span class="bg-secondary text-white text-[11px] px-4 py-1 rounded-full font-bold tracking-widest">コラム</span>
+                    </div>
+                    <h2 class="text-gray-900 font-medium text-[15px] leading-relaxed group-hover:text-primary transition-colors">
+                        株式会社RJPリクルートメントに組織変更。
+                    </h2>
+                </a>
+
+                <!-- 記事カード 6 -->
+                <a href="#" class="block group cursor-pointer article-card" data-category="news">
+                    <div class="overflow-hidden mb-4 rounded-sm">
+                        <img src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&q=80&w=800" alt="記事サムネイル" class="w-full aspect-[16/10] object-cover transition-transform duration-500 group-hover:scale-105">
+                    </div>
+                    <div class="flex items-center space-x-4 mb-3">
+                        <time class="text-gray-900 font-bold text-lg tracking-wider">2025.4.23</time>
+                        <span class="bg-primary text-white text-[11px] px-4 py-1 rounded-full font-bold tracking-widest">お知らせ</span>
+                    </div>
+                    <h2 class="text-gray-900 font-medium text-[15px] leading-relaxed group-hover:text-primary transition-colors">
+                        株式会社RJPリクルートメントに組織変更。
+                    </h2>
+                </a>
+
+                <!-- 記事カード 7 -->
+                <a href="#" class="block group cursor-pointer article-card" data-category="news">
+                    <div class="overflow-hidden mb-4 rounded-sm">
+                        <img src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&q=80&w=800" alt="記事サムネイル" class="w-full aspect-[16/10] object-cover transition-transform duration-500 group-hover:scale-105">
+                    </div>
+                    <div class="flex items-center space-x-4 mb-3">
+                        <time class="text-gray-900 font-bold text-lg tracking-wider">2025.4.23</time>
+                        <span class="bg-primary text-white text-[11px] px-4 py-1 rounded-full font-bold tracking-widest">お知らせ</span>
+                    </div>
+                    <h2 class="text-gray-900 font-medium text-[15px] leading-relaxed group-hover:text-primary transition-colors">
+                        株式会社RJPリクルートメントに組織変更。
+                    </h2>
+                </a>
+
+                <!-- 記事カード 8 -->
+                <a href="#" class="block group cursor-pointer article-card" data-category="column">
+                    <div class="overflow-hidden mb-4 rounded-sm">
+                        <img src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&q=80&w=800" alt="記事サムネイル" class="w-full aspect-[16/10] object-cover transition-transform duration-500 group-hover:scale-105">
+                    </div>
+                    <div class="flex items-center space-x-4 mb-3">
+                        <time class="text-gray-900 font-bold text-lg tracking-wider">2025.4.23</time>
+                        <span class="bg-secondary text-white text-[11px] px-4 py-1 rounded-full font-bold tracking-widest">コラム</span>
+                    </div>
+                    <h2 class="text-gray-900 font-medium text-[15px] leading-relaxed group-hover:text-primary transition-colors">
+                        株式会社RJPリクルートメントに組織変更。
+                    </h2>
+                </a>
+
+                <!-- 記事カード 9 -->
+                <a href="#" class="block group cursor-pointer article-card" data-category="news">
+                    <div class="overflow-hidden mb-4 rounded-sm">
+                        <img src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&q=80&w=800" alt="記事サムネイル" class="w-full aspect-[16/10] object-cover transition-transform duration-500 group-hover:scale-105">
+                    </div>
+                    <div class="flex items-center space-x-4 mb-3">
+                        <time class="text-gray-900 font-bold text-lg tracking-wider">2025.4.23</time>
+                        <span class="bg-primary text-white text-[11px] px-4 py-1 rounded-full font-bold tracking-widest">お知らせ</span>
+                    </div>
+                    <h2 class="text-gray-900 font-medium text-[15px] leading-relaxed group-hover:text-primary transition-colors">
+                        株式会社RJPリクルートメントに組織変更。
+                    </h2>
+                </a>
+
+            </div>
+
+            <!-- トップに戻るボタン -->
+            <div class="mt-20 mb-4 flex justify-center">
+                <a href="index.html" class="bg-primary text-white px-20 py-4 rounded-full font-bold text-[15px] tracking-widest shadow-lg hover:bg-[#1f3a7a] transition-colors inline-block">
+                    トップに戻る
+                </a>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- フッター -->
+    <footer class="footer-navy">
+        <div class="footer-content">
+            <h2 class="footer-company-name">株式会社RJPリクルートメント</h2>
+            <div class="footer-address">
+                〒811-2414<br>
+                福岡県糟屋郡篠栗町和田1-5-52
+            </div>
+
+            <div class="footer-nav-grid">
+                <a href="#" class="footer-nav-item">
+                    <span class="footer-nav-title">トップ</span>
+                </a>
+                <a href="#" class="footer-nav-item">
+                    <span class="footer-nav-title">行動指針</span>
+                    <span class="footer-nav-sub">・会社概要</span>
+                </a>
+                <a href="#" class="footer-nav-item">
+                    <span class="footer-nav-title">事業内容</span>
+                    <span class="footer-nav-sub">・採用支援サービス</span>
+                </a>
+                <a href="#" class="footer-nav-item">
+                    <span class="footer-nav-title">お知らせ</span>
+                </a>
+                <a href="#" class="footer-nav-item">
+                    <span class="footer-nav-title">公式スポンサー</span>
+                </a>
+            </div>
+
+            <div class="footer-bottom">
+                <a href="#" class="footer-policy-link">プライバシーポリシー</a><br>
+                <p class="footer-copy">COPYRIGHT©2025 株式会社RJPリクルートメント ALL RIGHTS RESERVED</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- フィルタリング用スクリプト -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const articles = document.querySelectorAll('.article-card');
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const filterValue = btn.getAttribute('data-filter');
+
+                    // ボタンの見た目（アクティブ状態）を更新
+                    filterBtns.forEach(b => {
+                        b.classList.remove('opacity-100');
+                        b.classList.add('opacity-50');
+                    });
+                    btn.classList.remove('opacity-50');
+                    btn.classList.add('opacity-100');
+
+                    // 記事の表示/非表示を切り替え
+                    articles.forEach(article => {
+                        if (filterValue === 'all') {
+                            article.style.display = 'block';
+                        } else if (article.getAttribute('data-category') === filterValue) {
+                            article.style.display = 'block';
+                        } else {
+                            article.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

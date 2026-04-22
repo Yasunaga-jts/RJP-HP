@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RJPリクルートメント - 採用支援サービス</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Noto+Serif+JP:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #fff;
+        }
+
+        /* --- スクロールアニメーション用スタイル --- */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+
+        .scroll-reveal.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 遅延のバリエーション */
+        .delay-200 { transition-delay: 200ms; }
+        .delay-400 { transition-delay: 400ms; }
+        .delay-600 { transition-delay: 600ms; }
+
+        /* --- ヘッダー --- */
+        .header-logo-img {
+            height: 30px; /* メニューの大きさに合わせて小さく調整 */
+            width: auto;
+            object-fit: contain;
+        }
+
+        /* メインビジュアル */
+        .mv-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            background: #f0f0f0;
+        }
+
+        .mv-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* 共通セクション設定 */
+        section {
+            padding: 80px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* 導入セクション */
+        .intro-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 60px;
+        }
+
+        .intro-text {
+            flex: 1;
+        }
+
+        .heading-plain {
+            display: inline-block;
+            color: #333;
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        .intro-body {
+            line-height: 1.8;
+            font-size: 15px;
+            color: #555;
+        }
+
+        .service-circle-visual {
+            flex: 1;
+            max-width: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .circle-image {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .heading-gradient {
+            display: inline-block;
+            background: linear-gradient(90deg, #00c6ff, #0072ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        /* 企業サポートセクション */
+        .support-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: stretch;
+            gap: 50px;
+        }
+
+        .support-left {
+            flex: 1;
+        }
+
+        .support-list {
+            margin-top: 30px;
+            border-top: 1px solid #eee;
+        }
+
+        .support-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .support-item:hover {
+            color: #0072ff;
+        }
+
+        .support-num {
+            color: #0072ff;
+            font-size: 18px;
+            margin-right: 20px;
+            width: 30px;
+        }
+
+        /* インタラクティブ・バナー */
+        .support-right {
+            flex: 1;
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            min-height: 400px;
+        }
+
+        .support-card-bg {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0; left: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .support-card-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.85));
+            color: #fff;
+            padding: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            z-index: 2;
+        }
+
+        .support-card-text-box {
+            flex: 1;
+            transition: transform 0.3s ease;
+        }
+
+        .support-card-image-box {
+            flex: 0 0 120px;
+            margin-left: 20px;
+            transition: opacity 0.3s ease;
+        }
+
+        .support-card-char {
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));
+        }
+
+        .support-card-tag {
+            font-size: 40px;
+            opacity: 0.5;
+            font-weight: bold;
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+
+        .support-card-title {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            line-height: 1.3;
+        }
+
+        .support-card-desc {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* --- 実績セクション --- */
+        .stats-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 60px;
+        }
+
+        .stats-content {
+            flex: 1.2; 
+        }
+
+        .heading-blue {
+            display: inline-block;
+            background: linear-gradient(90deg, #00CFFF, #101B9D);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 38px;
+            font-weight: bold;
+            line-height: 1.4;
+        }
+
+        .sub-heading-container {
+            margin-top: 30px;
+            margin-bottom: 40px;
+            line-height: 1.8;
+        }
+
+        .highlight-yellow {
+            background: linear-gradient(transparent 60%, #ffff66 60%);
+            display: inline;
+            font-weight: bold;
+            font-size: 26px;
+            color: #000;
+        }
+
+        .stats-body-text {
+            font-size: 15px;
+            color: #333;
+            line-height: 2;
+            margin-bottom: 25px;
+        }
+
+        .stats-map {
+            flex: 0.8;
+            position: relative;
+        }
+
+        .map-image {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .stats-badge-container {
+            position: absolute;
+            top: 5%; 
+            left: -15%;  
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 10;
+        }
+
+        .orange-tag {
+            background: #eba054;
+            color: #fff;
+            padding: 8px 20px;
+            font-weight: bold;
+            font-size: 18px;
+            display: inline-block;
+            white-space: nowrap;
+        }
+
+        /* --- フッター --- */
+        .footer-navy {
+            background-color: #1D2E7A; 
+            color: #fff;
+            padding: 80px 40px 40px;
+            position: relative;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            text-align: left;
+        }
+
+        .footer-company-name {
+            font-size: 2.25rem;
+            font-weight: 700;
+            font-family: 'Noto Serif JP', serif;
+            margin-bottom: 15px;
+        }
+
+        .footer-address {
+            font-size: 0.875rem;
+            line-height: 1.8;
+            opacity: 0.9;
+            margin-bottom: 40px;
+        }
+
+        .footer-nav-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-bottom: 60px;
+            width: 100%;
+            justify-content: flex-end;
+        }
+
+        .footer-nav-item {
+            text-align: left;
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .footer-nav-title {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .footer-nav-sub {
+            font-size: 0.7rem;
+            opacity: 0.7;
+            display: block;
+        }
+
+        .footer-bottom {
+            width: 100%;
+            border-top: none;
+            padding-top: 40px;
+            text-align: center;
+        }
+
+        .footer-policy-link {
+            font-size: 0.75rem;
+            opacity: 0.6;
+            margin-bottom: 20px;
+            display: inline-block;
+            transition: opacity 0.3s;
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .footer-policy-link:hover { opacity: 1; }
+
+        .footer-copy {
+            font-size: 0.7rem;
+            opacity: 0.6;
+            letter-spacing: 0.05em;
+            margin: 0;
+        }
+
+        @media (max-width: 1024px) {
+            .footer-nav-grid { justify-content: flex-start; gap: 20px; }
+            .footer-company-name { font-size: 1.75rem; }
+            .intro-section, .support-section, .stats-section { flex-direction: column; }
+            .support-right { min-height: 300px; }
+            .support-card-image-box { flex: 0 0 80px; }
+            .stats-badge-container {
+                position: relative;
+                top: 0;
+                left: 0;
+                margin-bottom: 20px;
+                align-items: flex-start;
+            }
+            .heading-blue { font-size: 28px; }
+            .highlight-yellow { font-size: 20px; }
+        }
+    </style>
+</head>
+<body class="bg-white overflow-x-hidden relative">
+
+    <!-- ヘッダー -->
+    <header class="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-sm py-4 border-b border-gray-100">
+        <div class="container mx-auto px-6 lg:px-16 flex items-center justify-between">
+            <div class="flex items-center">
+                <a href="index.html" aria-label="トップページへ">
+                    <img src="logo1.png" alt="株式会社RJP" class="header-logo-img" onerror="this.src='https://via.placeholder.com/100x40?text=RJP+LOGO'">
+                </a>
+            </div>
+            <nav class="hidden lg:flex items-center gap-8">
+                <a href="#" class="text-sm font-bold hover:text-blue-700 transition-colors">会社概要</a>
+                <a href="#" class="text-sm font-bold hover:text-blue-700 transition-colors">サービスについて</a>
+                <a href="#" class="text-sm font-bold hover:text-blue-700 transition-colors">お知らせ・コラム</a>
+                <a href="#" class="text-sm font-bold hover:text-blue-700 transition-colors">公式スポンサー</a>
+                <a href="#" class="bg-[#F27B35] text-white px-8 py-3 rounded-full font-bold text-sm tracking-widest ml-4 shadow-md hover:brightness-105 transition-all">お問い合わせ</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- メインビジュアル -->
+    <main>
+        <div class="mv-container scroll-reveal">
+            <picture>
+                <source srcset="https://images.unsplash.com/photo-1449156003053-c3065067f8b2?auto=format&fit=crop&w=800&q=80" media="(max-width: 767px)">
+                <img src="hukuoka.png" alt="都市のパノラマ背景" class="mv-image" onerror="this.src='https://images.unsplash.com/photo-1449156003053-c3065067f8b2?auto=format&fit=crop&w=1600&q=80'">
+            </picture>
+        </div>
+
+        <!-- 導入セクション -->
+        <section class="intro-section">
+            <div class="intro-text">
+                <h1 class="heading-plain scroll-reveal">全ての企業の人材不足解消へ</h1>
+                <div class="intro-body scroll-reveal delay-200">
+                    <p>日本の労働力不足は、今や全産業において深刻な状況にあり、中小企業における採用環境は厳しさを増しています。</p>
+                    <p class="mt-4">私たちは、こうした最新の採用トレンドをいち早く捉え、各企業様に合わせた最適なプランニングをご提案いたします。</p>
+                </div>
+            </div>
+            <div class="service-circle-visual scroll-reveal delay-400">
+                <img src="maru.png" alt="トリキルくんサービス図解" class="circle-image" onerror="this.src='https://via.placeholder.com/400?text=Service+Image'">
+            </div>
+        </section>
+
+        <!-- 企業サポートセクション -->
+        <section class="support-section">
+            <div class="support-left">
+                <div class="scroll-reveal">
+                    <div class="heading-gradient">採用も発信も、</div><br>
+                    <div class="heading-gradient">まるごと支える企業サポート</div>
+                </div>
+                
+                <div class="support-list scroll-reveal delay-200">
+                    <div class="support-item" data-index="01">
+                        <span class="support-num">01</span>顧問型求人コンサル「トリキルくん」を提供
+                    </div>
+                    <div class="support-item" data-index="02">
+                        <span class="support-num">02</span>Web運用
+                    </div>
+                    <div class="support-item" data-index="03">
+                        <span class="support-num">03</span>求人イラスト画像作成
+                    </div>
+                    <div class="support-item" data-index="04">
+                        <span class="support-num">04</span>市場調査・分析
+                    </div>
+                    <div class="support-item" data-index="05">
+                        <span class="support-num">05</span>indeed 企業ページ作成
+                    </div>
+                    <div class="support-item" data-index="06">
+                        <span class="support-num">06</span>会社HP作成
+                    </div>
+                </div>
+            </div>
+            
+            <div class="support-right scroll-reveal delay-400" id="banner-container">
+                <img src="konsaru.png" alt="背景" class="support-card-bg" id="banner-bg" onerror="this.src='https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80'">
+                <div class="support-card-content">
+                    <div class="support-card-text-box">
+                        <div class="support-card-tag" id="banner-num">01</div>
+                        <div class="support-card-title" id="banner-title">顧問型求人コンサルティング<br>トリキルくん</div>
+                        <div class="text-xs mb-2" id="banner-sub">Advisor Recruitment</div>
+                        <div class="support-card-desc" id="banner-desc">企業の採用活動を支援します！</div>
+                    </div>
+                    <div class="support-card-image-box" id="banner-char-box">
+                        <img src="torikirukun.png" alt="トリキルくん" class="support-card-char" onerror="this.src='https://via.placeholder.com/120x150?text=Character'">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 実績セクション -->
+        <section class="stats-section">
+            <div class="stats-content">
+                <div class="scroll-reveal">
+                    <span class="heading-blue">豊富な実績と信頼で、</span><br>
+                    <span class="heading-blue">採用活動を支援！</span>
+                </div>
+                
+                <div class="sub-heading-container scroll-reveal delay-200">
+                    <span class="highlight-yellow">年間100万件の実績と、</span><br>
+                    <span class="highlight-yellow">500社を支える求人広告のエキスパート</span>
+                </div>
+
+                <div class="scroll-reveal delay-400">
+                    <p class="stats-body-text">
+                        創業以来、求人広告は当社の中核事業として成長を続け、現在も年間100万件以<br class="hidden md:block">上の実績を積み重ねています。
+                    </p>
+                    <p class="stats-body-text">
+                        これまでに500社以上の採用活動をサポートし、全国の採用課題に向き合いなが<br class="hidden md:block">ら、幅広い業界・職種の支援を行ってまいりました。<br>
+                        地域性や業種ごとの特性を踏まえた媒体選定力は、当社サービスの大きな強みで<br class="hidden md:block">す。
+                    </p>
+                    <p class="stats-body-text">
+                        また、1件の広告に対して1件以上の応募がある反響率は99%超。心に響くコピー<br class="hidden md:block">や検索ワードを意識した原稿作成を通じて、企業ごとのニーズや採用ターゲット<br class="hidden md:block">に合った求人広告をご提案します。
+                    </p>
+                </div>
+            </div>
+            <div class="stats-map scroll-reveal delay-600">
+                <div class="stats-badge-container">
+                    <div class="orange-tag">年間100万件の実績！</div>
+                    <div class="orange-tag">500社以上のサポート実績</div>
+                </div>
+                <img src="japan.png" alt="日本地図実績イメージ" class="map-image" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Japan_map_blank.svg/800px-Japan_map_blank.svg.png'">
+            </div>
+        </section>
+    </main>
+
+    <!-- ★変更：フッター直上、画像風デザインの中央配置トップへ戻るボタン (ページ遷移のリンクに変更) -->
+    <div class="w-full bg-white relative z-10 py-12 scroll-reveal">
+        <div class="max-w-[1200px] mx-auto flex justify-center">
+            <a href="index.html" class="flex items-center justify-center gap-3 bg-gradient-to-r from-[#00c6ff] to-[#0072ff] text-white px-10 py-3.5 rounded-full font-bold text-sm tracking-wide shadow-md hover:brightness-110 hover:shadow-lg transition-all focus:outline-none" aria-label="トップページへ戻る">
+                <span>トップへ戻る</span>
+                <!-- 白い丸背景の矢印アイコン -->
+                <span class="bg-white text-[#0072ff] rounded-full w-[22px] h-[22px] flex items-center justify-center">
+                    <svg class="w-3 h-3 ml-[1px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3.5" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </span>
+            </a>
+        </div>
+    </div>
+
+    <!-- フッター -->
+    <footer class="footer-navy">
+        <div class="footer-content scroll-reveal">
+            <h2 class="footer-company-name">株式会社RJPリクルートメント</h2>
+            <div class="footer-address">
+                〒811-2414<br>
+                福岡県糟屋郡篠栗町和田1-5-52
+            </div>
+
+            <div class="footer-nav-grid">
+                <a href="#" class="footer-nav-item">
+                    <span class="footer-nav-title">トップ</span>
+                </a>
+                <a href="#" class="footer-nav-item">
+                    <span class="footer-nav-title">行動指針</span>
+                    <span class="footer-nav-sub">・会社概要</span>
+                </a>
+                <a href="#" class="footer-nav-item">
+                    <span class="footer-nav-title">事業内容</span>
+                    <span class="footer-nav-sub">・採用支援サービス</span>
+                </a>
+                <a href="#" class="footer-nav-item">
+                    <span class="footer-nav-title">お知らせ</span>
+                </a>
+                <a href="#" class="footer-nav-item">
+                    <span class="footer-nav-title">公式スポンサー</span>
+                </a>
+            </div>
+
+            <div class="footer-bottom">
+                <a href="#" class="footer-policy-link">プライバシーポリシー</a><br>
+                <p class="footer-copy">COPYRIGHT©2025 株式会社RJPリクルートメント ALL RIGHTS RESERVED</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- トップへ戻るボタン (既存のフローティングボタン) -->
+    <button id="backToTopBtn" class="fixed bottom-8 right-8 bg-[#1D2E7A] text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg opacity-0 pointer-events-none transition-all duration-300 z-50 hover:bg-[#101B9D] hover:scale-110 focus:outline-none">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+        </svg>
+    </button>
+
+    <script>
+        /**
+         * 各サービスのバナーデータ
+         */
+        const bannerData = {
+            "01": {
+                bg: "konsaru.png",
+                title: "顧問型求人コンサルティング<br>トリキルくん",
+                sub: "Advisor Recruitment",
+                desc: "企業の採用活動を支援します！"
+            },
+            "02": {
+                bg: "web.png",
+                title: "Web運用",
+                sub: "Web Operations",
+                desc: "成果につながる運用を実現します！"
+            },
+            "03": {
+                bg: "kyuuzin.png",
+                title: "求人イラスト画像作成",
+                sub: "Creative Design",
+                desc: "視覚的に惹きつけるデザインを作成します。"
+            },
+            "04": {
+                bg: "sijou.png",
+                title: "市場調査・分析",
+                sub: "Market Analysis",
+                desc: "データに基づいた最適な戦略を提案します。"
+            },
+            "05": {
+                bg: "indeed.png",
+                title: "indeed 企業ページ作成",
+                sub: "Indeed Branding",
+                desc: "魅力的な企業ページで応募を最大化します。"
+            },
+            "06": {
+                bg: "HP.png",
+                title: "会社HP作成",
+                sub: "Website Development",
+                desc: "採用に特化したWEBサイトを構築します。"
+            }
+        };
+
+        const listItems = document.querySelectorAll('.support-item');
+        const bannerBg = document.getElementById('banner-bg');
+        const bannerNum = document.getElementById('banner-num');
+        const bannerTitle = document.getElementById('banner-title');
+        const bannerSub = document.getElementById('banner-sub');
+        const bannerDesc = document.getElementById('banner-desc');
+        const bannerCharBox = document.getElementById('banner-char-box');
+
+        listItems.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                const index = item.getAttribute('data-index');
+                const data = bannerData[index];
+
+                if (data) {
+                    bannerBg.style.opacity = '0';
+                    setTimeout(() => {
+                        // エラーハンドリング用に元のsrcかプレースホルダーをセット
+                        const newImg = new Image();
+                        newImg.src = data.bg;
+                        newImg.onload = () => bannerBg.src = data.bg;
+                        newImg.onerror = () => bannerBg.src = 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80';
+                        
+                        bannerBg.style.opacity = '1';
+                    }, 200);
+
+                    bannerNum.textContent = index;
+                    bannerTitle.innerHTML = data.title;
+                    bannerSub.textContent = data.sub;
+                    bannerDesc.textContent = data.desc;
+
+                    const hiddenIndices = ['02', '03', '04', '05', '06'];
+                    if (hiddenIndices.includes(index)) {
+                        bannerCharBox.style.opacity = '0';
+                        bannerCharBox.style.pointerEvents = 'none';
+                    } else {
+                        bannerCharBox.style.opacity = '1';
+                        bannerCharBox.style.pointerEvents = 'auto';
+                    }
+                }
+            });
+        });
+
+        // --- スクロール検知アニメーション ---
+        function initScrollReveal() {
+            const options = {
+                root: null,
+                rootMargin: "0px",
+                threshold: 0.1 // 10%が見えたら発動
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, options);
+
+            const revealElements = document.querySelectorAll('.scroll-reveal');
+            revealElements.forEach(el => observer.observe(el));
+        }
+
+        // --- トップへ戻るボタンの制御 ---
+        function initBackToTop() {
+            const backToTopBtn = document.getElementById('backToTopBtn');
+
+            // スクロール量に応じてボタンの表示/非表示を切り替え
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    backToTopBtn.classList.remove('opacity-0', 'pointer-events-none');
+                    backToTopBtn.classList.add('opacity-100', 'pointer-events-auto');
+                } else {
+                    backToTopBtn.classList.add('opacity-0', 'pointer-events-none');
+                    backToTopBtn.classList.remove('opacity-100', 'pointer-events-auto');
+                }
+            });
+
+            // クリック時にスムーズに上へスクロール
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        }
+
+        // DOMが読み込まれたら各種初期化を実行
+        document.addEventListener('DOMContentLoaded', () => {
+            initScrollReveal();
+            initBackToTop();
+        });
+    </script>
+</body>
+</html>
